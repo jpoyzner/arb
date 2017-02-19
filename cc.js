@@ -76,7 +76,7 @@ module.exports = {
 
 					if (this.readings > 1) {
 						this.avgarb += (diffPercent - this.avgarb) / this.readings;
-						this.rate += (diffPercent - this.diffPercent - this.rate) / this.readings - 1;
+						this.rate += (Math.abs(diffPercent - this.diffPercent) - this.rate) / (this.readings - 1);
 					} else {
 						this.avgarb = diffPercent;
 						this.rate = 0;
