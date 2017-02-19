@@ -44,9 +44,11 @@ module.exports = {
 					console.log("LOWEST PRICE: $" + lowestSnap.PRICE + " (" + lowestSnap.MARKET + ")");
 					console.log("HIGHEST PRICE: $" + highestSnap.PRICE + " (" + highestSnap.MARKET + ")");
 
+					var diff = (Number(highestSnap.PRICE) - Number(lowestSnap.PRICE));
+
 					console.log(
-						"ARBITRAGE: $" + (Number(highestSnap.PRICE) - Number(lowestSnap.PRICE))
-						+ " (" + highestSnap.MARKET + "->" + lowestSnap.MARKET + ")");
+						"ARBITRAGE: " + (diff * 100 / Number(lowestSnap.PRICE)) + "% ($" + diff
+						+ ", " + highestSnap.MARKET + "->" + lowestSnap.MARKET + ")");
 				}
 			});
 		});
