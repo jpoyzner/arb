@@ -1,6 +1,9 @@
 var https = require('https');
 var fs = require('fs');
 
+const FROM = 'ETC';
+const TO = 'BTC';
+
 module.exports = {
 	arb: function() {
 		this.readings = 0;
@@ -11,7 +14,8 @@ module.exports = {
 		}.bind(this));
 	},
 	prices: function() {
-		https.get({host: 'www.cryptocompare.com', port: 443, path: "/api/data/coinsnapshot/?fsym=BTC&tsym=USD"}, function(response) {
+		var params = {host: 'www.cryptocompare.com', port: 443, path: "/api/data/coinsnapshot/?fsym=" + FROM + "&tsym=" + TO}
+		https.get(params, function(response) {
 			var data = "";
 						
 			response.on('data', function(chunk) {
