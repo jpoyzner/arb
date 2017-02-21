@@ -2,7 +2,7 @@ var https = require('https');
 var fs = require('fs');
 var moment = require('moment');
 
-const FROM = 'ETC';
+const FROM = 'XMR';
 const TO = 'BTC';
 
 module.exports = {
