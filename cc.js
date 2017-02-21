@@ -1,5 +1,6 @@
 var https = require('https');
 var fs = require('fs');
+var moment = require('moment');
 
 const FROM = 'ETC';
 const TO = 'BTC';
@@ -27,8 +28,7 @@ module.exports = {
 					var now = new Date();
 					var nowSeconds = now.getTime() / 1000;
 					var snaps = JSON.parse(data).Data.Exchanges.filter(function(snap) {
-						return snap.TOSYMBOL === 'USD'
-							&& (snap.MARKET === 'Poloniex' || snap.MARKET === 'Kraken');
+						return snap.TOSYMBOL === TO && (snap.MARKET === 'Poloniex' || snap.MARKET === 'Kraken');
 							//&& nowSeconds - Number(snap.LASTUPDATE) < 60;
 					});
 
@@ -47,9 +47,9 @@ module.exports = {
 							highestSnap = snap;
 						}
 
-						 // console.log(
-							// snap.MARKET + ": $" + snap.PRICE
-							// + " (" + parseInt(nowSeconds - Number(snap.LASTUPDATE)) + " SECONDS AGO)");
+						// console.log(
+						// 	snap.MARKET + ": $" + snap.PRICE
+						// 	+ " (" + parseInt(nowSeconds - Number(snap.LASTUPDATE)) + " SECONDS AGO)");
 					});
 
 					//JUST MAKE SURE LOWEST PRICE STAYS LOWEST FOR NOW
@@ -91,7 +91,7 @@ module.exports = {
 					console.log(
 						diffPercent + "% ($"
 						+ diff + ", " + highestSnap.MARKET + "->" + lowestSnap.MARKET + ") "
-						+ now + ", AVG=" + this.avgarb + "%");
+						+ moment(now).format('MM/DD/YYYY H:mm:00') + ", AVG=" + this.avgarb + "%");
 
 					console.log("THIS FLIP: " + this.currentFlipMins + " mins (AVG:" + this.flipMinsAvg + " mins)");
 					console.log("AVG CHANGE PER MINUTE: " + this.rate + "%");
