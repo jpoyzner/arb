@@ -28,8 +28,8 @@ module.exports = {
 					var now = new Date();
 					var nowSeconds = now.getTime() / 1000;
 					var snaps = JSON.parse(data).Data.Exchanges.filter(function(snap) {
-						return snap.TOSYMBOL === TO && (snap.MARKET === 'Poloniex' || snap.MARKET === 'Kraken');
-							//&& nowSeconds - Number(snap.LASTUPDATE) < 60;
+						//return snap.TOSYMBOL === TO && (snap.MARKET === 'Poloniex' || snap.MARKET === 'Kraken');
+						return nowSeconds - Number(snap.LASTUPDATE) < 600;
 					});
 
 					snaps.sort(function(snapA, snapB) {
@@ -47,13 +47,22 @@ module.exports = {
 							highestSnap = snap;
 						}
 
-						// console.log(
-						// 	snap.MARKET + ": $" + snap.PRICE
-						// 	+ " (" + parseInt(nowSeconds - Number(snap.LASTUPDATE)) + " SECONDS AGO)");
+						 console.log(
+						 	snap.MARKET + ": $" + snap.PRICE
+						 	+ " (" + parseInt(nowSeconds - Number(snap.LASTUPDATE)) + " SECONDS AGO)");
 					});
 
-					//JUST MAKE SURE LOWEST PRICE STAYS LOWEST FOR NOW
-					if (this.lowestSnap && lowestSnap.MARKET === this.lowestSnap.MARKET) {
+					var lowestFlipSnap =
+						snaps.filter(function(snap) {
+							return this.lowestFlipSnap && snap.MARKET === this.lowestFlipSnap.MARKET;
+						}.bind(this));
+
+					var highestFlipSnap =
+						snaps.filter(function(snap) {
+							return 	this.highestFlipSnap && snap.MARKET === this.highestFlipSnap.MARKET;
+						}.bind(this));
+
+					if (lowestFlipSnap[0] && highestFlipSnap[0] && lowestFlipSnap[0].PRICE < highestFlipSnap[0].PRICE) {
 						this.currentFlipMins++;
 					} else {
 						if (this.lowestSnap) {
@@ -67,10 +76,13 @@ module.exports = {
 						}
 						
 						this.currentFlipMins = 0;
+
+						this.lowestFlipSnap = lowestSnap;
+						this.highestFlipSnap = highestSnap;
 					}
 
 					this.lowestSnap = lowestSnap;
-					this.highestSnap = highestSnap; ///
+					this.highestSnap = highestSnap;
 
 					//console.log("LOWEST PRICE: $" + lowestSnap.PRICE + " (" + lowestSnap.MARKET + ")");
 					//console.log("HIGHEST PRICE: $" + highestSnap.PRICE + " (" + highestSnap.MARKET + ")");
@@ -93,7 +105,11 @@ module.exports = {
 						+ diff + ", " + highestSnap.MARKET + "->" + lowestSnap.MARKET + ") "
 						+ moment(now).format('MM/DD/YYYY H:mm:00') + ", AVG=" + this.avgarb + "%");
 
-					console.log("THIS FLIP: " + this.currentFlipMins + " mins (AVG:" + this.flipMinsAvg + " mins)");
+					console.log(
+						"THIS FLIP: " + this.currentFlipMins + " mins ("
+						+ highestSnap.MARKET + "->" + lowestSnap.MARKET
+						+ ", AVG:" + this.flipMinsAvg + " mins)");
+					
 					console.log("AVG CHANGE PER MINUTE: " + this.rate + "%");
 				}
 			}.bind(this));
