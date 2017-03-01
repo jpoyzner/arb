@@ -1,0 +1,22 @@
+Kraken->Poloniex
+BITCOIN in USD
+AVG=0.1653528034632557%
+FLIP AVG: 5.366071428571431 mins
+AVG CHANGE PER MINUTE: 0.05717116040514941%
+(RAN FOR 24 hours)
+
+Kraken->Poloniex
+ETH in BTC
+AVG=0.309%
+FLIP AVG: 11 mins
+AVG CHANGE PER MINUTE: 0.05%
+about a profit window every 80 mins with avg peak of 0.8% (11% of total time spent in profit window)
+(RAN FOR 13 hours)
+
+Kraken->Poloniex
+
+AVG=0.23757976511700704%
+FLIP AVG:4.290322580645161 mins)
+AVG CHANGE PER MINUTE: 0.09049161032539078%
+about a profit window every 60 min with avg peak of .9% (avergare window length: 5 mins, 8.3% of total time in profit)
+(RAN FOR 15 hours)
